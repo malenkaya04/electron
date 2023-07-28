@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>kayaShot - Screenshot Utility</title>
+    <link rel="stylesheet" href="./canvas.css">
+  </head>
+  <body>
+    <h3>kayaShot - Screenshot Utility</h3>
+    <hr>
+    <button id="clear">Reset image</button>
+    <button id="upload">Upload to cloud</button>
+    <hr>
+    <canvas id="canvas">
+
+    </canvas>
+
+
+    <script>
+
+        let canvas = document.getElementById("canvas")
+        const ctx = canvas.getContext("2d")
+        let firstPosX = 0, firstPosY = 0, secondPosX = 0, secondPosY = 0
+        initCanvas()
+
+        
+
+        canvas.onclick = (e) => {
+
+            
+  
+            // Set actual size in memory (scaled to account for extra pixel density).
+           
+        
+            console.log(firstPosX, firstPosY, secondPosX, secondPosY)
+            if (firstPosX == 0 && firstPosY == 0) {
+                firstPosX = getMousePos(canvas, e).x
+                firstPosY = getMousePos(canvas, e).y
+            }
+            else {
+                secondPosX = getMousePos(canvas, e).x
+                secondPosY = getMousePos(canvas, e).y
+
+                if (firstPosX > secondPosX) {
+                let temp = firstPosX
+                firstPosX = secondPosX
+                secondPosX = temp
+                }
+            
+                if (firstPosY > secondPosY) {
+                let temp = firstPosY
+                firstPosY = secondPosY
+                secondPosY = temp
+                }
+
+
+            let width = secondPosX - firstPosX
+            let height = secondPosY - firstPosY
+
+            let img = new Image()
+            img.src = canvas.toDataURL()
+            img.onload = () => {
+                clearCanvas()
+                canvas.width = img.width
+                canvas.height = img.height
+                ctx.drawImage(img,firstPosX, firstPosY, width, height, 0,0,width,height)
+                firstPosX = 0, firstPosY = 0, secondPosX = 0, secondPosY = 0
+            }
+
+
+
+            
+
+
+
+
+
+
+
+            }
+        }
+
+        function initCanvas() {
+
+            // Set actual size in memory (scaled to account for extra pixel density).
+            var scale = window.devicePixelRatio; // Change to 1 on retina screens to see blurry canvas.
+            canvas.width = canvas.width * scale;
+            canvas.height =  canvas.height * scale;
+
+            // Normalize coordinate system to use css pixels.
+            ctx.scale(scale, scale);
+            
+
+            let img = new Image()
+            img.src = 'http://www.malenkaya.net/imagehost/Y8V97Fq4'
+            img.onload = () => {
+                canvas.height = img.height
+                canvas.width = img.width
+                canvas.background = img
+                ctx.drawImage(img, 0, 0)
+            }
+        }
+
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
+        }
+
+        document.getElementById("clear").onclick = () => {
+            clearCanvas()
+            initCanvas()
+        }
+
+        function  getMousePos(canvas, evt) {
+        var rect = canvas.getBoundingClientRect(), // abs. size of element
+        scaleX = canvas.width / rect.width,    // relationship bitmap vs. element for x
+        scaleY = canvas.height / rect.height;  // relationship bitmap vs. element for y
+
+        return {
+         x: (evt.clientX - rect.left) * scaleX,   // scale mouse coordinates after they have
+         y: (evt.clientY - rect.top) * scaleY     // been adjusted to be relative to element
+        }
+        }
+    </script>
+  </body>
+</html>
