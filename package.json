@@ -1,7 +1,7 @@
 {
   "name": "kayashot",
   "version": "1.0.0",
-  "description": "",
+  "description": "kayashot is a simple program to create screenshots and upload them to the cloud",
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -29,6 +29,7 @@
     "electron": "25.3.2"
   },
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.0"
+    "electron-squirrel-startup": "^1.0.0",
+    "node-fetch": "^3.3.2"
   }
 }

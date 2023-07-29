@@ -122,6 +122,12 @@
          y: (evt.clientY - rect.top) * scaleY     // been adjusted to be relative to element
         }
         }
+
+        document.getElementById("upload").onclick = () => {
+            let string = canvas.toDataURL()
+            ipcRenderer.send("uploadImage", string)
+        }
+
     </script>
   </body>
 </html>
