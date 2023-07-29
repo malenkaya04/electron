@@ -10,6 +10,8 @@
     <hr>
     <button id="clear">Reset image</button>
     <button id="upload">Upload to cloud</button>
+    <button id="modeCover">Censor Mode</button>
+    <button id="modeCut">Adjust image size</button>
     <hr>
     <canvas id="canvas">
 
@@ -19,6 +21,8 @@
     <script>
         const { ipcRenderer } = require('electron');
         let canvas = document.getElementById("canvas")
+        let modeCoverButton = document.getElementById("modeCover");
+        let modeCutButton = document.getElementById("modeCut")
         const ctx = canvas.getContext("2d")
         let firstPosX = 0, firstPosY = 0, secondPosX = 0, secondPosY = 0
         initCanvas()
@@ -27,12 +31,6 @@
 
         canvas.onclick = (e) => {
 
-            
-  
-            // Set actual size in memory (scaled to account for extra pixel density).
-           
-        
-            console.log(firstPosX, firstPosY, secondPosX, secondPosY)
             if (firstPosX == 0 && firstPosY == 0) {
                 firstPosX = getMousePos(canvas, e).x
                 firstPosY = getMousePos(canvas, e).y
@@ -65,18 +63,7 @@
                 canvas.height = height
                 ctx.drawImage(img,firstPosX, firstPosY, width, height, 0,0,width,height)
                 firstPosX = 0, firstPosY = 0, secondPosX = 0, secondPosY = 0
-            }
-
-
-
-            
-
-
-
-
-
-
-
+                }
             }
         }
 
@@ -126,6 +113,15 @@
         document.getElementById("upload").onclick = () => {
             let string = canvas.toDataURL()
             ipcRenderer.send("uploadImage", string)
+        }
+
+        modeCoverButton.onclick = () => { 
+            //change style of modeCut button
+
+        }
+        
+        modeCutButton.onclick = () => {
+            //change style of modeCover button  	
         }
 
     </script>
