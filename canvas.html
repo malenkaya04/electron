@@ -14,12 +14,17 @@
     <button id="modeCut" class="selectedButton">Adjust image size</button>
     <hr>
     <canvas id="canvas">
+    
 
     </canvas>
+    <br>
+    <button id="minimize">Minimize</button>
+    <button id="close">Quit</button>
 
 
     <script>
-        const { ipcRenderer } = require('electron');
+        
+        const { ipcRenderer} = require('electron');
         let canvas = document.getElementById("canvas")
         let modeCoverButton = document.getElementById("modeCover");
         let modeCutButton = document.getElementById("modeCut")
@@ -144,6 +149,32 @@
                 modeCoverButton.classList.remove('selectedButton')
             }	
         }
+
+        function zoom(event) {
+         event.preventDefault();
+
+         scale += event.deltaY * -0.001;
+
+         // Restrict scale
+        scale = Math.min(Math.max(0.125, scale), 4);
+
+         // Apply scale transform
+         canvas.style.transform = `scale(${scale})`;
+        }
+
+        let scale = 1
+        canvas.onwheel = zoom
+
+        document.getElementById('close').onclick = () => { 
+            ipcRenderer.send('quit','')
+        }
+
+        document.getElementById('minimize').onclick = () => { 
+            ipcRenderer.send('minimize','')
+        }
+
+
+       
 
     </script>
   </body>

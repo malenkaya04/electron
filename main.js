@@ -1,14 +1,21 @@
-const { Menu, app, BrowserWindow, globalShortcut, clipboard, ipcMain, desktopCapturer, Notification  } = require('electron')
+const { Menu, app, BrowserWindow, globalShortcut, clipboard, ipcMain, desktopCapturer, Notification, shell  } = require('electron')
 
 
 let win
 let imageData
-
 const createWindow = () => {
     win = new BrowserWindow({
       titleBarStyle: 'hidden',
       width: 1000,
       height: 1000,
+      frame: false,
+      transparent: false,
+      alwaysOnTop: true,
+      focusable: false, //THIS IS THE KEY
+      closable: true,
+      fullscreenable: false,
+      maximizable: false,
+      resizable: true,
       webPreferences: {
         nodeIntegration: true,
         contextIsolation: false,
@@ -32,6 +39,10 @@ const createWindow = () => {
   }
 
   app.whenReady().then(() => {
+
+        const TITLE1 = "kayaShot"
+        const BODY1 = "kayaShot is ready to go!"
+        new Notification({title: TITLE1, body : BODY1}).show();
 
     const ret = globalShortcut.register('Alt+V',async  () => {
 
@@ -91,6 +102,8 @@ const createWindow = () => {
     const BODY = "Successfully uploaded screenshot!"
     new Notification({title: TITLE, body : BODY}).show();
 
+    shell.openExternal(fullLink)
+
   })
 
   function sleep(ms) {
@@ -98,6 +111,14 @@ const createWindow = () => {
       setTimeout(resolve, ms);
     });
   }
+
+  ipcMain.on('quit', (event, arg) => {
+    app.quit();
+  })
+
+  ipcMain.on('minimize', (event, arg) => {
+    win.close()
+  })
 
 
 

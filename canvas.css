@@ -13,14 +13,18 @@ body {
     height: 100%;
     background-attachment: fixed;
     margin: 0;
+    -webkit-app-region: drag;
+    border-radius: 5px;
 }
 
 canvas {
+    -webkit-app-region: no-drag;
     border: 2px solid lawngreen;
     width: 75%;
 }
 
 button {
+    -webkit-app-region: no-drag;
     width: 22%;
     margin: 0;
     height: 50px;
