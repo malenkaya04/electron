@@ -20,7 +20,7 @@ const createWindow = () => {
 
   app.whenReady().then(() => {
 
-    const ret = globalShortcut.register('ScrollLock',async  () => {
+    const ret = globalShortcut.register('V',async  () => {
 
         const TITLE = "kayaShot"
         const BODY = "Successfully created screenshot!"
