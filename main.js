@@ -1,4 +1,4 @@
-const { app, BrowserWindow, globalShortcut, clipboard, ipcMain, desktopCapturer, Notification  } = require('electron')
+const { Menu, app, BrowserWindow, globalShortcut, clipboard, ipcMain, desktopCapturer, Notification  } = require('electron')
 
 
 let win
@@ -17,7 +17,18 @@ const createWindow = () => {
     })
   
     win.loadFile('canvas.html')
-    win.webContents.openDevTools();
+
+    var contextMenu = Menu.buildFromTemplate([
+      { label: 'Show App', click:  function(){
+          win.show();
+      } },
+      { label: 'Quit', click:  function(){
+          app.isQuiting = true;
+          app.quit();
+      } }
+    ]);
+
+    Menu.setApplicationMenu(contextMenu)
   }
 
   app.whenReady().then(() => {
@@ -26,9 +37,9 @@ const createWindow = () => {
 
         const TITLE = "kayaShot"
         const BODY = "Successfully created screenshot!"
-
         new Notification({title: TITLE, body : BODY}).show();
 
+        
         
         
         console.log('V is pressed')
@@ -39,6 +50,7 @@ const createWindow = () => {
         await sleep(200);
         if (BrowserWindow.getAllWindows().length !== 0) { win.close()}
         createWindow()
+      
     })
  
     app.on('activate', () => {
@@ -86,6 +98,8 @@ const createWindow = () => {
       setTimeout(resolve, ms);
     });
   }
+
+
 
   
 
