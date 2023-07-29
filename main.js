@@ -6,6 +6,7 @@ let imageData
 
 const createWindow = () => {
     win = new BrowserWindow({
+      titleBarStyle: 'hidden',
       width: 1000,
       height: 1000,
       webPreferences: {
@@ -16,11 +17,12 @@ const createWindow = () => {
     })
   
     win.loadFile('canvas.html')
+    win.webContents.openDevTools();
   }
 
   app.whenReady().then(() => {
 
-    const ret = globalShortcut.register('V',async  () => {
+    const ret = globalShortcut.register('Alt+V',async  () => {
 
         const TITLE = "kayaShot"
         const BODY = "Successfully created screenshot!"
@@ -35,6 +37,7 @@ const createWindow = () => {
             imageData = sources[0].thumbnail.toDataURL() // The image to display the screenshot
         })
         await sleep(200);
+        if (BrowserWindow.getAllWindows().length !== 0) { win.close()}
         createWindow()
     })
  

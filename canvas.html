@@ -11,7 +11,7 @@
     <button id="clear">Reset image</button>
     <button id="upload">Upload to cloud</button>
     <button id="modeCover">Censor Mode</button>
-    <button id="modeCut">Adjust image size</button>
+    <button id="modeCut" class="selectedButton">Adjust image size</button>
     <hr>
     <canvas id="canvas">
 
@@ -23,6 +23,9 @@
         let canvas = document.getElementById("canvas")
         let modeCoverButton = document.getElementById("modeCover");
         let modeCutButton = document.getElementById("modeCut")
+        let currentMode = 'cut'
+
+
         const ctx = canvas.getContext("2d")
         let firstPosX = 0, firstPosY = 0, secondPosX = 0, secondPosY = 0
         initCanvas()
@@ -51,17 +54,27 @@
                 secondPosY = temp
                 }
 
+                let width = secondPosX - firstPosX
+                let height = secondPosY - firstPosY
 
-            let width = secondPosX - firstPosX
-            let height = secondPosY - firstPosY
+                console.log("current mode : " +currentMode)
 
-            let img = new Image()
-            img.src = canvas.toDataURL()
-            img.onload = () => {
+                if (currentMode === 'cut') {
+
+                let img = new Image()
+                img.src = canvas.toDataURL()
+                img.onload = () => {
                 clearCanvas()
                 canvas.width = width
                 canvas.height = height
                 ctx.drawImage(img,firstPosX, firstPosY, width, height, 0,0,width,height)
+                firstPosX = 0, firstPosY = 0, secondPosX = 0, secondPosY = 0
+                }
+                }
+
+                if (currentMode === 'cover') {
+
+                ctx.fillRect(firstPosX, firstPosY, width, height)
                 firstPosX = 0, firstPosY = 0, secondPosX = 0, secondPosY = 0
                 }
             }
@@ -69,6 +82,7 @@
 
         function initCanvas() {
 
+            currentMode === 'cut'
             // Set actual size in memory (scaled to account for extra pixel density).
             var scale = window.devicePixelRatio; // Change to 1 on retina screens to see blurry canvas.
             canvas.width = canvas.width * scale;
@@ -116,12 +130,19 @@
         }
 
         modeCoverButton.onclick = () => { 
-            //change style of modeCut button
-
+            if (currentMode === 'cut') {
+                currentMode = 'cover'
+                modeCoverButton.classList.add('selectedButton')
+                modeCutButton.classList.remove('selectedButton')
+            }
         }
         
         modeCutButton.onclick = () => {
-            //change style of modeCover button  	
+            if (currentMode === 'cover') {
+                currentMode = 'cut'
+                modeCutButton.classList.add('selectedButton')
+                modeCoverButton.classList.remove('selectedButton')
+            }	
         }
 
     </script>

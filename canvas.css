@@ -1,4 +1,42 @@
+body {
+    align-items: center;
+    text-align: center;
+    color:white;
+    background-image: linear-gradient(#d1006d, rgb(114, 114, 206));
+    background-image: -moz-linear-gradient(#d1006d, rgb(114, 114, 206));
+    background-image: -webkit-linear-gradient(#d1006d, rgb(114, 114, 206));
+    background-image:-o-linear-gradient(#d1006d, rgb(114, 114, 206));
+    font-size: 30px;
+    font-family: Arial, Helvetica, sans-serif;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+    height: 100%;
+    background-attachment: fixed;
+    margin: 0;
+}
+
 canvas {
     border: 2px solid lawngreen;
     width: 75%;
 }
+
+button {
+    width: 22%;
+    margin: 0;
+    height: 50px;
+    background-color: hotpink;
+    color: white;
+    font-size: large;
+    border: none;
+    border-radius: 5px;
+}
+
+button:active {
+    background-color: #d1006d;
+}
+
+.selectedButton {
+    border : 2px solid lawngreen;
+    background-color: #d1006d;
+}
+

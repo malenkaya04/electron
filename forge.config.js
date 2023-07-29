@@ -1,6 +1,7 @@
 module.exports = {
   packagerConfig: {
     asar: true,
+    icon: './uM20ahal'
   },
   rebuildConfig: {},
   makers: [
